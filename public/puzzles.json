@@ -1,5 +1,11 @@
 [
-  { "id": 1, "title": "Nivel 1", "prompt": "", "answer": "", "hint": "" },
+  {
+    "id": 1,
+    "title": "Cubo a 20 movimientos",
+    "prompt": "Tienes un cubo de Rubik ya mezclado con una secuencia óptima. Es decir, está exactamente a la máxima distancia teórica de la solución. Observa el cubo y responde: ¿cuántos movimientos de Dios lo separan del estado resuelto?",
+    "answer": "20",
+    "hint": "Piensa en el número mágico que define la profundidad máxima del árbol de estados del cubo 3x3."
+  },
   { "id": 2, "title": "Nivel 2", "prompt": "", "answer": "", "hint": "" },
   { "id": 3, "title": "Nivel 3", "prompt": "", "answer": "", "hint": "" },
   { "id": 4, "title": "Nivel 4", "prompt": "", "answer": "", "hint": "" },

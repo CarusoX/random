@@ -7,10 +7,11 @@ interface PuzzleCardProps {
   title: string;
   prompt: string;
   hint?: string;
+  extra?: ReactNode;
   children: ReactNode;
 }
 
-export default function PuzzleCard({ title, prompt, hint, children }: PuzzleCardProps) {
+export default function PuzzleCard({ title, prompt, hint, extra, children }: PuzzleCardProps) {
   return (
     <motion.div
       className="terminal-box"
@@ -23,6 +24,7 @@ export default function PuzzleCard({ title, prompt, hint, children }: PuzzleCard
         <span style={{ color: '#9ca3af', fontSize: '0.85rem' }}>PROMPT</span>
       </div>
       <div style={{ marginTop: '0.75rem', whiteSpace: 'pre-line' }}>{prompt || 'Pendiente de contenido'}</div>
+      {extra && <div style={{ marginTop: '0.75rem' }}>{extra}</div>}
       {hint && (
         <div style={{ marginTop: '0.75rem', color: '#9ca3af', fontSize: '0.9rem' }}>
           <strong>Pista:</strong> {hint}

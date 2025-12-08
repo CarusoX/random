@@ -119,3 +119,99 @@ small {
   font-size: 0.9rem;
   text-align: center;
 }
+
+.cube-panel {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.75rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.01) 100%);
+}
+
+.cube-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.cube-rotate {
+  background: #0c0c0c;
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 0.35rem 0.6rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.85rem;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.cube-rotate:hover {
+  border-color: var(--accent);
+  color: var(--accent-strong);
+}
+
+.cube-scene {
+  width: 220px;
+  height: 220px;
+  margin: 0 auto;
+  perspective: 900px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cube {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  transform-style: preserve-3d;
+  transition: transform 0.8s ease;
+}
+
+.cube-face {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  border: 2px solid rgba(0, 0, 0, 0.35);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 2px;
+  opacity: 0.96;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.cube-face.front { transform: translateZ(70px); }
+.cube-face.back { transform: rotateY(180deg) translateZ(70px); }
+.cube-face.right { transform: rotateY(90deg) translateZ(70px); }
+.cube-face.left { transform: rotateY(-90deg) translateZ(70px); }
+.cube-face.top { transform: rotateX(90deg) translateZ(70px); }
+.cube-face.bottom { transform: rotateX(-90deg) translateZ(70px); }
+
+.face-grid {
+  display: contents;
+}
+
+.face-cell {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+.face-label {
+  position: absolute;
+  bottom: 6px;
+  right: 8px;
+  font-size: 0.75rem;
+  color: #031106;
+  font-weight: 700;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+}
+
+.cube-caption {
+  margin-top: 0.5rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
