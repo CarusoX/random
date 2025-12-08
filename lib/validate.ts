@@ -14,6 +14,13 @@ export async function validateAnswer(id: number, answer: string) {
     return { correct, total: puzzles.length };
   }
   
+  // Para el puzzle de Pi Clock (id 4), aceptar "PI" o "π"
+  if (id === 4) {
+    const normalizedAnswer = normalized(answer);
+    const correct = normalizedAnswer === 'pi' || normalizedAnswer === 'π' || normalizedAnswer === normalized('PI');
+    return { correct, total: puzzles.length };
+  }
+  
   const correct = normalized(puzzle.answer) === normalized(answer);
 
   return { correct, total: puzzles.length };

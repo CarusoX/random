@@ -8,6 +8,7 @@ import { motion } from 'framer-motion';
 import Challenge1 from '@/components/challenges/Challenge1';
 import Challenge2 from '@/components/challenges/Challenge2';
 import Challenge3 from '@/components/challenges/Challenge3';
+import Challenge4 from '@/components/challenges/Challenge4';
 import DefaultChallenge from '@/components/challenges/DefaultChallenge';
 
 export default function LevelPage() {
@@ -96,6 +97,8 @@ export default function LevelPage() {
         return <Challenge2 {...commonProps} />;
       case 3:
         return <Challenge3 {...commonProps} />;
+      case 4:
+        return <Challenge4 {...commonProps} />;
       default:
         return <DefaultChallenge {...commonProps} />;
     }
