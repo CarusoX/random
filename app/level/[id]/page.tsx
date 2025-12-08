@@ -17,6 +17,8 @@ export default function LevelPage() {
   const [puzzles, setPuzzles] = useState<Puzzle[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [dynamicPrompt, setDynamicPrompt] = useState<string | null>(null);
+  const [dynamicHint, setDynamicHint] = useState<string | null>(null);
 
   const totalLevels = puzzles.length || 10;
   const { currentLevel, isReady, updateLevel } = useProgress(totalLevels);
@@ -27,6 +29,28 @@ export default function LevelPage() {
       .catch(() => setError('No se pudo cargar puzzles.json'))
       .finally(() => setLoading(false));
   }, []);
+
+  // Obtener prompt dinámico para puzzles especiales
+  useEffect(() => {
+    if (levelId === 2) {
+      fetch(`/api/puzzle/${levelId}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.prompt) {
+            setDynamicPrompt(data.prompt);
+          }
+          if (data.hint) {
+            setDynamicHint(data.hint);
+          }
+        })
+        .catch(() => {
+          // Si falla, usar el prompt del JSON
+        });
+    } else {
+      setDynamicPrompt(null);
+      setDynamicHint(null);
+    }
+  }, [levelId]);
 
   useEffect(() => {
     if (!isReady || loading) return;
@@ -81,6 +105,10 @@ export default function LevelPage() {
   if (!puzzle) return <p>No existe este nivel.</p>;
 
   const extra = puzzle.id === 1 ? <RubiksCube /> : null;
+  
+  // Usar prompt dinámico si está disponible, sino el del puzzle
+  const displayPrompt = dynamicPrompt !== null ? dynamicPrompt : puzzle.prompt;
+  const displayHint = dynamicHint !== null ? dynamicHint : puzzle.hint;
 
   return (
     <main>
@@ -91,7 +119,7 @@ export default function LevelPage() {
         </small>
       </motion.div>
 
-      <PuzzleCard title={puzzle.title || `Puzzle ${puzzle.id}`} prompt={puzzle.prompt} hint={puzzle.hint} extra={extra}>
+      <PuzzleCard title={puzzle.title || `Puzzle ${puzzle.id}`} prompt={displayPrompt} hint={displayHint} extra={extra}>
         <InputAnswer onSubmit={handleSubmit} disabled={!isReady || loading} />
       </PuzzleCard>
     </main>
