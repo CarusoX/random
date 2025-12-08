@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import PuzzleCard from '@/components/PuzzleCard';
 import InputAnswer from '@/components/InputAnswer';
+import RubiksCube from '@/components/RubiksCube';
 import { useProgress } from '@/hooks/useProgress';
 import { loadPuzzles, type Puzzle } from '@/lib/loadPuzzles';
 import { motion } from 'framer-motion';
@@ -79,6 +80,8 @@ export default function LevelPage() {
   if (error) return <p style={{ color: '#ef4444' }}>{error}</p>;
   if (!puzzle) return <p>No existe este nivel.</p>;
 
+  const extra = puzzle.id === 1 ? <RubiksCube /> : null;
+
   return (
     <main>
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
@@ -88,7 +91,7 @@ export default function LevelPage() {
         </small>
       </motion.div>
 
-      <PuzzleCard title={puzzle.title || `Puzzle ${puzzle.id}`} prompt={puzzle.prompt} hint={puzzle.hint}>
+      <PuzzleCard title={puzzle.title || `Puzzle ${puzzle.id}`} prompt={puzzle.prompt} hint={puzzle.hint} extra={extra}>
         <InputAnswer onSubmit={handleSubmit} disabled={!isReady || loading} />
       </PuzzleCard>
     </main>
