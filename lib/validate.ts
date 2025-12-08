@@ -8,8 +8,8 @@ export async function validateAnswer(id: number, answer: string) {
 
   const normalized = (value: string) => value.trim().toLowerCase();
   
-  // Para el puzzle de Vigenère (id 2), la respuesta correcta es siempre "ME GUSTA EL FERNET"
-  if (id === 2) {
+  // Para el puzzle de Caesar (id 3), la respuesta correcta es siempre "ME GUSTA EL FERNET"
+  if (id === 3) {
     const correct = normalized('ME GUSTA EL FERNET') === normalized(answer);
     return { correct, total: puzzles.length };
   }

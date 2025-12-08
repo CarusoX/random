@@ -6,8 +6,8 @@
     "answer": "20",
     "hint": ""
   },
-  { "id": 2, "title": "Brutus y Cassius comiendo una ensalada cifrada", "prompt": "", "answer": "ME GUSTA EL FERNET", "hint": "" },
-  { "id": 3, "title": "El chanchito escritor", "prompt": "OINK OINK", "answer": "POR FIN ME RECIBI", "hint": "Era muy estudioso y hábil con su lapicera. Sus amigos escoceses le llamaban pen-pig o pig-pen, no recuerdo." },
+  { "id": 2, "title": "El chanchito escritor", "prompt": "OINK OINK", "answer": "POR FIN ME RECIBI", "hint": "Era muy estudioso y hábil con su lapicera. Sus amigos escoceses le llamaban pen-pig o pig-pen, no recuerdo." },
+  { "id": 3, "title": "Brutus y Cassius comiendo una ensalada cifrada", "prompt": "", "answer": "ME GUSTA EL FERNET", "hint": "" },
   { "id": 4, "title": "Nivel 4", "prompt": "", "answer": "", "hint": "" },
   { "id": 5, "title": "Nivel 5", "prompt": "", "answer": "", "hint": "" },
   { "id": 6, "title": "Nivel 6", "prompt": "", "answer": "", "hint": "" },

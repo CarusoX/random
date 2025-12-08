@@ -7,8 +7,8 @@ export async function GET(
 ) {
   const id = Number(params.id);
   
-  // Solo para el puzzle de César (id 2)
-  if (id === 2) {
+  // Solo para el puzzle de César (id 3, después del intercambio)
+  if (id === 3) {
     const now = new Date();
     const shift = now.getHours();
     

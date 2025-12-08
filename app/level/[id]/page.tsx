@@ -2,13 +2,13 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import PuzzleCard from '@/components/PuzzleCard';
-import InputAnswer from '@/components/InputAnswer';
-import RubiksCube from '@/components/RubiksCube';
-import PigpenCipher from '@/components/PigpenCipher';
 import { useProgress } from '@/hooks/useProgress';
 import { loadPuzzles, type Puzzle } from '@/lib/loadPuzzles';
 import { motion } from 'framer-motion';
+import Challenge1 from '@/components/challenges/Challenge1';
+import Challenge2 from '@/components/challenges/Challenge2';
+import Challenge3 from '@/components/challenges/Challenge3';
+import DefaultChallenge from '@/components/challenges/DefaultChallenge';
 
 export default function LevelPage() {
   const params = useParams<{ id: string }>();
@@ -18,8 +18,6 @@ export default function LevelPage() {
   const [puzzles, setPuzzles] = useState<Puzzle[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [dynamicPrompt, setDynamicPrompt] = useState<string | null>(null);
-  const [dynamicHint, setDynamicHint] = useState<string | null>(null);
 
   const totalLevels = puzzles.length || 10;
   const { currentLevel, isReady, updateLevel } = useProgress(totalLevels);
@@ -30,28 +28,6 @@ export default function LevelPage() {
       .catch(() => setError('No se pudo cargar puzzles.json'))
       .finally(() => setLoading(false));
   }, []);
-
-  // Obtener prompt dinámico para puzzles especiales
-  useEffect(() => {
-    if (levelId === 2) {
-      fetch(`/api/puzzle/${levelId}`)
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.prompt) {
-            setDynamicPrompt(data.prompt);
-          }
-          if (data.hint) {
-            setDynamicHint(data.hint);
-          }
-        })
-        .catch(() => {
-          // Si falla, usar el prompt del JSON
-        });
-    } else {
-      setDynamicPrompt(null);
-      setDynamicHint(null);
-    }
-  }, [levelId]);
 
   useEffect(() => {
     if (!isReady || loading) return;
@@ -105,12 +81,25 @@ export default function LevelPage() {
   if (error) return <p style={{ color: '#ef4444' }}>{error}</p>;
   if (!puzzle) return <p>No existe este nivel.</p>;
 
-  const extra = puzzle.id === 1 ? <RubiksCube /> : 
-                puzzle.id === 3 ? <PigpenCipher text={puzzle.answer} /> : null;
-  
-  // Usar prompt dinámico si está disponible, sino el del puzzle
-  const displayPrompt = dynamicPrompt !== null ? dynamicPrompt : puzzle.prompt;
-  const displayHint = dynamicHint !== null ? dynamicHint : puzzle.hint;
+  // Renderizar el componente de challenge correspondiente
+  const renderChallenge = () => {
+    const commonProps = {
+      puzzle,
+      onSubmit: handleSubmit,
+      disabled: !isReady || loading
+    };
+
+    switch (puzzle.id) {
+      case 1:
+        return <Challenge1 {...commonProps} />;
+      case 2:
+        return <Challenge2 {...commonProps} />;
+      case 3:
+        return <Challenge3 {...commonProps} />;
+      default:
+        return <DefaultChallenge {...commonProps} />;
+    }
+  };
 
   return (
     <main>
@@ -121,9 +110,7 @@ export default function LevelPage() {
         </small>
       </motion.div>
 
-      <PuzzleCard title={puzzle.title || `Puzzle ${puzzle.id}`} prompt={displayPrompt} hint={displayHint} extra={extra}>
-        <InputAnswer onSubmit={handleSubmit} disabled={!isReady || loading} />
-      </PuzzleCard>
+      {renderChallenge()}
     </main>
   );
 }
