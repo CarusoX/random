@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import PuzzleCard from '@/components/PuzzleCard';
 import InputAnswer from '@/components/InputAnswer';
 import RubiksCube from '@/components/RubiksCube';
+import PigpenCipher from '@/components/PigpenCipher';
 import { useProgress } from '@/hooks/useProgress';
 import { loadPuzzles, type Puzzle } from '@/lib/loadPuzzles';
 import { motion } from 'framer-motion';
@@ -104,7 +105,8 @@ export default function LevelPage() {
   if (error) return <p style={{ color: '#ef4444' }}>{error}</p>;
   if (!puzzle) return <p>No existe este nivel.</p>;
 
-  const extra = puzzle.id === 1 ? <RubiksCube /> : null;
+  const extra = puzzle.id === 1 ? <RubiksCube /> : 
+                puzzle.id === 3 ? <PigpenCipher text={puzzle.answer} /> : null;
   
   // Usar prompt dinámico si está disponible, sino el del puzzle
   const displayPrompt = dynamicPrompt !== null ? dynamicPrompt : puzzle.prompt;

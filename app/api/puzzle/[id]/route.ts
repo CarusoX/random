@@ -17,7 +17,7 @@ export async function GET(
     
     return NextResponse.json({
       prompt: encrypted,
-      hint: '¿Qué hora es? Los minutos pasaron de moda'
+      hint: 'La clave esta en la hora, los minutos pasaron de moda'
     });
   }
   

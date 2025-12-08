@@ -1,3 +1,11 @@
+@font-face {
+  font-family: 'Pigpen HHXX';
+  src: url('/fonts/PigpenCipher.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   color-scheme: dark;
   --bg: #0a0a0a;
