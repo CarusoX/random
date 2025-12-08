@@ -4,7 +4,7 @@ import { validateAnswer } from '@/lib/validate';
 export async function POST(request: Request) {
   const { id, answer } = await request.json();
 
-  if (typeof id !== 'number' || typeof answer !== 'string') {
+  if (typeof id !== 'string' || typeof answer !== 'string') {
     return NextResponse.json({ correct: false }, { status: 400 });
   }
 

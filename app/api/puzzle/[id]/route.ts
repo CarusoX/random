@@ -5,10 +5,10 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const id = Number(params.id);
+  const id = params.id;
   
-  // Solo para el puzzle de César (id 3, después del intercambio)
-  if (id === 3) {
+  // Solo para el puzzle de César (id "caesar")
+  if (id === 'caesar') {
     const now = new Date();
     const shift = now.getHours();
     

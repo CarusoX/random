@@ -1,18 +1,52 @@
 [
   {
-    "id": 1,
+    "step": 0,
+    "id": "rubiks-cube",
     "title": "Rubik's Cube",
     "prompt": "La humanidad no puede ganarle a Dios. ¿Cuántos movimientos necesitará?",
     "answer": "20",
-    "hint": ""
+    "hint": "",
+    "dynamicPrompt": false
   },
-  { "id": 2, "title": "El chanchito escritor", "prompt": "OINK OINK", "answer": "POR FIN ME RECIBI", "hint": "Era muy estudioso y hábil con su lapicera. Sus amigos escoceses le llamaban pen-pig o pig-pen, no recuerdo." },
-  { "id": 3, "title": "Brutus y Cassius comiendo una ensalada cifrada", "prompt": "", "answer": "ME GUSTA EL FERNET", "hint": "" },
-  { "id": 4, "title": "El reloj infinito", "prompt": "Me dio hambre", "answer": "PI", "hint": "" },
-  { "id": 5, "title": "Nivel 5", "prompt": "", "answer": "", "hint": "" },
-  { "id": 6, "title": "Nivel 6", "prompt": "", "answer": "", "hint": "" },
-  { "id": 7, "title": "Nivel 7", "prompt": "", "answer": "", "hint": "" },
-  { "id": 8, "title": "Nivel 8", "prompt": "", "answer": "", "hint": "" },
-  { "id": 9, "title": "Nivel 9", "prompt": "", "answer": "", "hint": "" },
-  { "id": 10, "title": "Nivel 10", "prompt": "", "answer": "", "hint": "" }
+  {
+    "step": 1,
+    "id": "pigpen",
+    "title": "El chanchito escritor",
+    "prompt": "OINK OINK",
+    "answer": "POR FIN ME RECIBI",
+    "hint": "Era muy estudioso y hábil con su lapicera. Sus amigos escoceses le llamaban pen-pig o pig-pen, no recuerdo.",
+    "dynamicPrompt": false
+  },
+  {
+    "step": 2,
+    "id": "caesar",
+    "title": "Brutus y Cassius comiendo una ensalada cifrada",
+    "prompt": "",
+    "answer": "ME GUSTA EL FERNET",
+    "hint": "",
+    "dynamicPrompt": true
+  },
+  {
+    "step": 3,
+    "id": "pi-clock",
+    "title": "El reloj infinito",
+    "prompt": "Me dio hambre",
+    "answer": "PI",
+    "hint": "",
+    "dynamicPrompt": false
+  },
+  {
+    "step": 4,
+    "id": "night-mode",
+    "title": "Medianoche digital",
+    "prompt": "En la oscuridad de la noche, algunas cosas se nos escapan de la vista",
+    "answer": "MUERTE AL LIGHT MODE",
+    "hint": "AAAH mis ojos",
+    "dynamicPrompt": false
+  },
+  { "step": 5, "id": "level-6", "title": "Nivel 6", "prompt": "", "answer": "", "hint": "", "dynamicPrompt": false },
+  { "step": 6, "id": "level-7", "title": "Nivel 7", "prompt": "", "answer": "", "hint": "", "dynamicPrompt": false },
+  { "step": 7, "id": "level-8", "title": "Nivel 8", "prompt": "", "answer": "", "hint": "", "dynamicPrompt": false },
+  { "step": 8, "id": "level-9", "title": "Nivel 9", "prompt": "", "answer": "", "hint": "", "dynamicPrompt": false },
+  { "step": 9, "id": "level-10", "title": "Nivel 10", "prompt": "", "answer": "", "hint": "", "dynamicPrompt": false }
 ]

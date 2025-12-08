@@ -17,22 +17,26 @@ export default function Challenge3({ puzzle, onSubmit, disabled }: Challenge3Pro
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Hacer fetch para obtener el prompt dinámico
-    fetch(`/api/puzzle/${puzzle.id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.prompt) {
-          setPrompt(data.prompt);
-        }
-        if (data.hint) {
-          setHint(data.hint);
-        }
-      })
-      .catch(() => {
-        // Si falla, usar el prompt del puzzle
-      })
-      .finally(() => setLoading(false));
-  }, [puzzle.id]);
+    // Hacer fetch automáticamente si dynamicPrompt es true
+    if (puzzle.dynamicPrompt) {
+      fetch(`/api/puzzle/${puzzle.id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.prompt) {
+            setPrompt(data.prompt);
+          }
+          if (data.hint) {
+            setHint(data.hint);
+          }
+        })
+        .catch(() => {
+          // Si falla, usar el prompt del puzzle
+        })
+        .finally(() => setLoading(false));
+    } else {
+      setLoading(false);
+    }
+  }, [puzzle.id, puzzle.dynamicPrompt]);
 
   return (
     <PuzzleCard 

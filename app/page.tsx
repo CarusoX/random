@@ -116,7 +116,7 @@ export default function HomePage() {
       {puzzles.length > 0 && isReady && <Progress current={currentLevel} total={totalLevels} />}
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-        <Link href={hasCompleted ? '/complete' : `/level/${currentLevel}`}>
+        <Link href={hasCompleted ? '/complete' : `/level/${currentLevel - 1}`}>
           <button className="cta" disabled={!isReady || loading}>
             {hasCompleted ? 'Ver FLAG final' : 'Comenzar'}
           </button>
