@@ -44,8 +44,16 @@
     "hint": "AAAH mis ojos",
     "dynamicPrompt": false
   },
-  { "step": 5, "id": "level-6", "title": "Nivel 6", "prompt": "", "answer": "", "hint": "", "dynamicPrompt": false },
-  { "step": 6, "id": "level-7", "title": "Nivel 7", "prompt": "", "answer": "", "hint": "", "dynamicPrompt": false },
+  {
+    "step": 5,
+    "id": "ping-tracker",
+    "title": "Ping Tracker",
+    "prompt": "¿Por qué tengo tanto lag?",
+    "answer": "NO HAY 5G",
+    "hint": "Capaz si recargo tengo mejor ping",
+    "dynamicPrompt": false
+  },
+  { "step": 6, "id": "level-6", "title": "Nivel 6", "prompt": "", "answer": "", "hint": "", "dynamicPrompt": false },
   { "step": 7, "id": "level-8", "title": "Nivel 8", "prompt": "", "answer": "", "hint": "", "dynamicPrompt": false },
   { "step": 8, "id": "level-9", "title": "Nivel 9", "prompt": "", "answer": "", "hint": "", "dynamicPrompt": false },
   { "step": 9, "id": "level-10", "title": "Nivel 10", "prompt": "", "answer": "", "hint": "", "dynamicPrompt": false }

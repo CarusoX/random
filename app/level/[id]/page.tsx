@@ -10,6 +10,7 @@ import Challenge2 from '@/components/challenges/Challenge2';
 import Challenge3 from '@/components/challenges/Challenge3';
 import Challenge4 from '@/components/challenges/Challenge4';
 import Challenge5 from '@/components/challenges/Challenge5';
+import Challenge6 from '@/components/challenges/Challenge6';
 import DefaultChallenge from '@/components/challenges/DefaultChallenge';
 import ThemeToggle from '@/components/ThemeToggle';
 
@@ -110,6 +111,8 @@ export default function LevelPage() {
         return <Challenge4 {...commonProps} />;
       case 'night-mode':
         return <Challenge5 {...commonProps} isLightMode={isLightMode} />;
+      case 'ping-tracker':
+        return <Challenge6 {...commonProps} />;
       default:
         return <DefaultChallenge {...commonProps} />;
     }
