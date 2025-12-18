@@ -35,8 +35,9 @@ export async function GET() {
   try {
     const players = await readPlayers();
     
-    // Convert to array and sort by level (descending), then by lastUpdated (descending)
+    // Convert to array, filter players with names, and sort by level (descending), then by lastUpdated (ascending)
     const playersArray = Object.entries(players)
+      .filter(([_, data]) => data.name && data.name.trim())
       .map(([playerId, data]) => ({
         playerId,
         name: data.name,
@@ -48,8 +49,8 @@ export async function GET() {
         if (b.currentLevel !== a.currentLevel) {
           return b.currentLevel - a.currentLevel;
         }
-        // Then by lastUpdated (descending) - most recent first
-        return new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime();
+        // Then by lastUpdated (ascending) - older first (first to complete wins tie)
+        return new Date(a.lastUpdated).getTime() - new Date(b.lastUpdated).getTime();
       });
 
     return NextResponse.json({ players: playersArray });

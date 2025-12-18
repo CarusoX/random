@@ -128,14 +128,19 @@ export async function PATCH(request: NextRequest) {
 
     const players = await readPlayers();
     if (!players[playerId]) {
-      return NextResponse.json({ error: 'Jugador no encontrado' }, { status: 404 });
+      // Create player if doesn't exist (can happen if level updated before name set)
+      players[playerId] = {
+        name: 'Jugador',
+        currentLevel,
+        lastUpdated: new Date().toISOString()
+      };
+    } else {
+      players[playerId] = {
+        ...players[playerId],
+        currentLevel,
+        lastUpdated: new Date().toISOString()
+      };
     }
-
-    players[playerId] = {
-      ...players[playerId],
-      currentLevel,
-      lastUpdated: new Date().toISOString()
-    };
 
     await writePlayers(players);
 

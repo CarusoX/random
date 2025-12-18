@@ -63,5 +63,5 @@
     "dynamicPrompt": false
   },
   { "step": 7, "id": "stairs-dp", "title": "Escaleras Dinámicas", "prompt": "", "answer": "5768", "hint": "Piensa en cómo llegaste a los escalones anteriores...", "dynamicPrompt": false },
-  { "step": 8, "id": "pangram-substitution", "title": "I love pan and grammars", "prompt": "", "answer": "", "hint": "And if you combine pan with grammars, it's even better", "dynamicPrompt": false }
+  { "step": 8, "id": "pangram-substitution", "title": "I love pan and grammars", "prompt": "", "answer": "Pack my box with five dozen liquor jugs", "hint": "And if you combine pan with grammars, it's even better", "dynamicPrompt": false }
 ]

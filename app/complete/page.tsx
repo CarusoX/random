@@ -47,6 +47,12 @@ export default function CompletePage() {
                 rank: playerIndex + 1,
                 totalPlayers: players.length
               });
+            } else if (players.length > 0) {
+              // Player completed but not in list yet (race condition)
+              setPlayerRank({
+                rank: players.length + 1,
+                totalPlayers: players.length + 1
+              });
             }
           }
         }
