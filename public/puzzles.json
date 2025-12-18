@@ -53,8 +53,15 @@
     "hint": "Capaz si recargo tengo mejor ping",
     "dynamicPrompt": false
   },
-  { "step": 6, "id": "level-6", "title": "Nivel 6", "prompt": "", "answer": "", "hint": "", "dynamicPrompt": false },
-  { "step": 7, "id": "level-8", "title": "Nivel 8", "prompt": "", "answer": "", "hint": "", "dynamicPrompt": false },
-  { "step": 8, "id": "level-9", "title": "Nivel 9", "prompt": "", "answer": "", "hint": "", "dynamicPrompt": false },
-  { "step": 9, "id": "level-10", "title": "Nivel 10", "prompt": "", "answer": "", "hint": "", "dynamicPrompt": false }
+  {
+    "step": 6,
+    "id": "binary-search",
+    "title": "Binary Sniper",
+    "prompt": "Pense un número entre 1 y 999, adivinalo",
+    "answer": "713",
+    "hint": "(a+b)/2",
+    "dynamicPrompt": false
+  },
+  { "step": 7, "id": "stairs-dp", "title": "Escaleras Dinámicas", "prompt": "", "answer": "5768", "hint": "Piensa en cómo llegaste a los escalones anteriores...", "dynamicPrompt": false },
+  { "step": 8, "id": "pangram-substitution", "title": "I love pan and grammars", "prompt": "", "answer": "", "hint": "And if you combine pan with grammars, it's even better", "dynamicPrompt": false }
 ]

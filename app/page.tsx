@@ -121,6 +121,11 @@ export default function HomePage() {
             {hasCompleted ? 'Ver FLAG final' : 'Comenzar'}
           </button>
         </Link>
+        <Link href="/scoreboard">
+          <button className="cta" style={{ background: '#0c0c0c', color: '#fff', borderColor: '#1f2937' }}>
+            Ver Scoreboard
+          </button>
+        </Link>
         <button
           className="cta"
           style={{ background: '#0c0c0c', color: '#22c55e', borderColor: '#1f2937' }}

@@ -11,6 +11,9 @@ import Challenge3 from '@/components/challenges/Challenge3';
 import Challenge4 from '@/components/challenges/Challenge4';
 import Challenge5 from '@/components/challenges/Challenge5';
 import Challenge6 from '@/components/challenges/Challenge6';
+import Challenge7 from '@/components/challenges/Challenge7';
+import Challenge8 from '@/components/challenges/Challenge8';
+import Challenge9 from '@/components/challenges/Challenge9';
 import DefaultChallenge from '@/components/challenges/DefaultChallenge';
 import ThemeToggle from '@/components/ThemeToggle';
 
@@ -113,6 +116,12 @@ export default function LevelPage() {
         return <Challenge5 {...commonProps} isLightMode={isLightMode} />;
       case 'ping-tracker':
         return <Challenge6 {...commonProps} />;
+      case 'binary-search':
+        return <Challenge7 {...commonProps} />;
+      case 'stairs-dp':
+        return <Challenge8 {...commonProps} />;
+      case 'pangram-substitution':
+        return <Challenge9 {...commonProps} />;
       default:
         return <DefaultChallenge {...commonProps} />;
     }

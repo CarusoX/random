@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import PuzzleCard from '@/components/PuzzleCard';
 import InputAnswer from '@/components/InputAnswer';
 import type { Puzzle } from '@/lib/loadPuzzles';
@@ -16,8 +16,11 @@ const STORAGE_KEY = 'ping-progress-index';
 
 export default function Challenge6({ puzzle, onSubmit, disabled }: Challenge7Props) {
   const [percent, setPercent] = useState<number>(0);
+  const didRun = useRef(false);
 
   useEffect(() => {
+    if (didRun.current) return; // evitar doble ejecución en StrictMode dev
+    didRun.current = true;
     // Cada recarga avanza al siguiente carácter
     const stored = localStorage.getItem(STORAGE_KEY);
     const currentIndex = stored ? Number(stored) % MESSAGE.length : 0;
@@ -47,7 +50,7 @@ export default function Challenge6({ puzzle, onSubmit, disabled }: Challenge7Pro
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.25rem' }}>
           <span style={{ color: '#9ca3af' }}>Ping</span>
-          <span style={{ color: '#22c55e', fontWeight: 700 }}>{percent}%</span>
+          <span style={{ color: '#22c55e', fontWeight: 700 }}>{percent}</span>
         </div>
         <div
           style={{
