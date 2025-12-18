@@ -64,7 +64,7 @@ export default function HomePage() {
     return (
       <main>
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
-          <h1 style={{ marginTop: 0 }}>Mini CTF Mobile</h1>
+          <h1 style={{ marginTop: 0 }}>Cooking Challenge</h1>
           <p style={{ color: '#9ca3af' }}>
             Ingresa tu nombre para comenzar
           </p>
@@ -104,10 +104,7 @@ export default function HomePage() {
   return (
     <main>
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
-        <h1 style={{ marginTop: 0 }}>Mini CTF Mobile</h1>
-        <p style={{ color: '#9ca3af' }}>
-          Hola, <strong>{name}</strong>! · 10 niveles · Listo para Vercel. Guarda tu progreso en el servidor.
-        </p>
+        <h1 style={{ marginTop: 0 }}>Cooking Challenge</h1>
       </motion.div>
 
       {loading && <p>Cargando niveles...</p>}

@@ -6,8 +6,8 @@ import Header from '@/components/Header';
 const spaceMono = Space_Mono({ subsets: ['latin'], weight: ['400', '700'] });
 
 export const metadata: Metadata = {
-  title: 'Mini CTF Mobile',
-  description: 'CTF móvil de 10 niveles listo para Vercel',
+  title: 'Cooking Challenge',
+  description: 'Cooking Challenge de 9 niveles',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

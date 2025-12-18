@@ -18,8 +18,8 @@ export default function Header() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Link href="/">
           <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <span style={{ fontWeight: 700, letterSpacing: '0.05em' }}>MOBILE CTF</span>
-            <small>10 niveles · App Router</small>
+            <span style={{ fontWeight: 700, letterSpacing: '0.05em' }}>Cooking Challenge</span>
+            <small>9 niveles</small>
           </div>
         </Link>
         {!isHome && (
