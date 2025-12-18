@@ -8,23 +8,28 @@ export interface Puzzle {
   dynamicPrompt?: boolean;
 }
 
+// Import puzzles.json directly as a module (works in both server and client)
+import puzzlesData from '../public/puzzles.json';
+
 export async function loadPuzzles(): Promise<Puzzle[]> {
   // Check if we're on the server (Node.js environment)
   if (typeof window === 'undefined') {
-    // Server-side: use filesystem
-    const { readFile } = await import('fs/promises');
-    const { join } = await import('path');
-    const filePath = join(process.cwd(), 'public', 'puzzles.json');
-    const fileContents = await readFile(filePath, 'utf-8');
-    const data: Puzzle[] = JSON.parse(fileContents);
-    return data.sort((a, b) => a.step - b.step);
+    // Server-side: use imported JSON directly
+    console.log('[loadPuzzles] Loaded from imported module (server-side)');
+    return (puzzlesData as Puzzle[]).sort((a, b) => a.step - b.step);
   } else {
-    // Client-side: use fetch
-    const response = await fetch('/puzzles.json');
-    if (!response.ok) {
-      throw new Error('No se pudo cargar puzzles.json');
+    // Client-side: use fetch (for consistency, though we could also use the import)
+    try {
+      const response = await fetch('/puzzles.json');
+      if (!response.ok) {
+        throw new Error('No se pudo cargar puzzles.json');
+      }
+      const data: Puzzle[] = await response.json();
+      return data.sort((a, b) => a.step - b.step);
+    } catch (error) {
+      // Fallback to imported data if fetch fails
+      console.log('[loadPuzzles] Fetch failed, using imported data:', error);
+      return (puzzlesData as Puzzle[]).sort((a, b) => a.step - b.step);
     }
-    const data: Puzzle[] = await response.json();
-    return data.sort((a, b) => a.step - b.step);
   }
 }
