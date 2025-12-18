@@ -129,9 +129,35 @@ curl -X POST \
   https://tu-app.vercel.app/api/admin/players
 ```
 
-#### Opción 3: Script Local (Solo desarrollo)
+#### Opción 3: Script Local (Desarrollo o Producción con Redis)
 
-El script `edit-players.js` solo funciona localmente. Para producción usa la Opción 1.
+El script `edit-players.js` funciona tanto localmente como con Redis:
+
+**Con Redis (producción o desarrollo):**
+```bash
+# Configura REDIS_URL
+export REDIS_URL="redis://default:password@host:port"
+
+# Listar jugadores
+node scripts/edit-players.js list
+
+# Cambiar nivel
+node scripts/edit-players.js set <playerId> <nivel>
+
+# Renombrar
+node scripts/edit-players.js rename <playerId> "Nuevo Nombre"
+
+# Eliminar
+node scripts/edit-players.js delete <playerId>
+```
+
+**Sin Redis (solo desarrollo local):**
+```bash
+# Funciona igual, pero usa el archivo local data/players.json
+node scripts/edit-players.js list
+```
+
+**Nota:** El script detecta automáticamente si `REDIS_URL` está configurado y usa Redis. Si no, usa el filesystem local.
 
 ## Notas Importantes
 
@@ -172,6 +198,7 @@ npm run lint
 - Verifica que no haya errores de TypeScript: `npm run lint`
 
 ### Los datos no persisten
-- Los archivos en `/data` pueden resetearse en Vercel
-- Considera migrar a una base de datos para producción
+- **Con Redis configurado**: Los datos persisten en Redis, no hay problema
+- **Sin Redis**: Los archivos en `/data` pueden resetearse en Vercel (filesystem de solo lectura)
+- **Solución**: Configura `REDIS_URL` en Vercel (ver paso 4 arriba)
 
