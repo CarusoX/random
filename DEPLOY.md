@@ -29,10 +29,17 @@ git commit -m "Initial commit"
    - **Output Directory**: `.next` (automático)
    - **Install Command**: `npm install` (automático)
 
-### 4. Variables de Entorno (si las necesitas)
+### 4. Variables de Entorno
 
-Si tienes variables de entorno, agrégalas en:
-- Settings → Environment Variables
+**IMPORTANTE:** Configura la clave admin para poder editar players.json:
+
+1. Ve a Settings → Environment Variables
+2. Agrega una nueva variable:
+   - **Name**: `ADMIN_KEY`
+   - **Value**: Una clave secreta segura (ej: `mi-clave-super-secreta-123`)
+   - **Environment**: Production, Preview, Development (marca todas)
+3. Haz clic en "Save"
+4. **Redeploy** el proyecto para que la variable tome efecto
 
 ### 5. Desplegar
 
@@ -58,43 +65,45 @@ Los archivos en `/data` (players.json, ciphers.json) se crean automáticamente c
 
 ### Editar players.json en Vercel
 
-#### Opción 1: Usar el Script Localmente
+**Vercel es serverless - NO hay acceso SSH directo.** Usa el endpoint admin:
 
-1. Clona el repositorio localmente
-2. Ejecuta el script:
+#### Opción 1: Script CLI Admin (Recomendado)
+
+1. **Configura `ADMIN_KEY` en Vercel** (ver paso 4 arriba)
+
+2. **Usa el script desde tu máquina local:**
    ```bash
-   node scripts/edit-players.js list
-   node scripts/edit-players.js set <playerId> <level>
+   # Listar todos los jugadores
+   ADMIN_KEY=tu-clave-secreta node scripts/admin-cli.js list https://tu-app.vercel.app
+
+   # Cambiar nivel de un jugador
+   ADMIN_KEY=tu-clave-secreta node scripts/admin-cli.js set https://tu-app.vercel.app <playerId> <nivel>
+
+   # Renombrar jugador
+   ADMIN_KEY=tu-clave-secreta node scripts/admin-cli.js rename https://tu-app.vercel.app <playerId> "Nuevo Nombre"
+
+   # Eliminar jugador
+   ADMIN_KEY=tu-clave-secreta node scripts/admin-cli.js delete https://tu-app.vercel.app <playerId>
    ```
-3. Haz commit y push:
-   ```bash
-   git add data/players.json
-   git commit -m "Update players"
-   git push
-   ```
-4. Vercel redeployará automáticamente
 
-#### Opción 2: Editar Directamente en Vercel (No recomendado)
-
-Los archivos en `/data` no son editables directamente desde el dashboard de Vercel. Necesitarías:
-- Usar Vercel CLI para acceder al servidor
-- O implementar una API admin para editar datos
-
-#### Opción 3: Usar Vercel CLI (Recomendado para ediciones rápidas)
+#### Opción 2: Usar curl o Postman
 
 ```bash
-# Instalar Vercel CLI
-npm i -g vercel
+# Listar jugadores
+curl -H "Authorization: Bearer tu-clave-secreta" \
+  https://tu-app.vercel.app/api/admin/players
 
-# Login
-vercel login
-
-# Link al proyecto
-vercel link
-
-# Ejecutar comando remoto (si tienes acceso SSH)
-# O usar el script localmente y hacer push
+# Actualizar jugador
+curl -X POST \
+  -H "Authorization: Bearer tu-clave-secreta" \
+  -H "Content-Type: application/json" \
+  -d '{"playerId":"player-123","currentLevel":5}' \
+  https://tu-app.vercel.app/api/admin/players
 ```
+
+#### Opción 3: Script Local (Solo desarrollo)
+
+El script `edit-players.js` solo funciona localmente. Para producción usa la Opción 1.
 
 ## Notas Importantes
 
