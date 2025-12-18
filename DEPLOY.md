@@ -29,22 +29,26 @@ git commit -m "Initial commit"
    - **Output Directory**: `.next` (automático)
    - **Install Command**: `npm install` (automático)
 
-### 4. Configurar Vercel KV (Base de Datos)
+### 4. Configurar Redis (Base de Datos)
 
-**CRÍTICO:** Vercel tiene un filesystem de solo lectura. Necesitas configurar Vercel KV para almacenar datos:
+**CRÍTICO:** Vercel tiene un filesystem de solo lectura. Necesitas configurar Redis para almacenar datos:
 
-1. **En el Dashboard de Vercel:**
-   - Ve a tu proyecto → Settings → Storage
-   - Click en "Create Database" → Selecciona "KV" (Redis)
-   - Sigue las instrucciones para crear el store
-   - Una vez creado, Vercel automáticamente agregará las variables de entorno:
-     - `KV_REST_API_URL`
-     - `KV_REST_API_TOKEN`
-     - `KV_REST_API_READ_ONLY_TOKEN`
+**Opción A: Vercel KV (Recomendado)**
+1. En el Dashboard de Vercel → Tu proyecto → Settings → Storage
+2. Click "Create Database" → Selecciona "KV" (Redis)
+3. Vercel agregará automáticamente las variables de entorno
 
-2. **Redeploy** el proyecto para que las variables tomen efecto
+**Opción B: Redis externo (Redis Labs, Upstash, etc.)**
+1. Crea una cuenta en un proveedor de Redis (Redis Labs, Upstash, etc.)
+2. Crea una base de datos Redis
+3. Obtén la URL de conexión (formato: `redis://...`)
+4. En Vercel → Settings → Environment Variables:
+   - Agrega `REDIS_URL` con tu URL de Redis
+   - Marca Production, Preview, Development
 
-**Nota:** En desarrollo local, el código usará filesystem automáticamente si KV no está configurado.
+**Redeploy** el proyecto para que las variables tomen efecto.
+
+**Nota:** En desarrollo local, el código usará filesystem automáticamente si `REDIS_URL` no está configurado.
 
 ### 5. Variables de Entorno Adicionales
 
@@ -72,13 +76,14 @@ git commit -m "Initial commit"
 
 ## Almacenamiento de Datos
 
-### Vercel KV (Producción)
+### Redis (Producción)
 
-El proyecto usa **Vercel KV** (Redis) para almacenar datos en producción:
-- **Players**: Se almacenan en KV con la clave `players`
-- **Ciphers**: Se almacenan en KV con la clave `ciphers`
-- **Persistencia**: Los datos persisten permanentemente en KV
+El proyecto usa **Redis** para almacenar datos en producción:
+- **Players**: Se almacenan en Redis con la clave `players`
+- **Ciphers**: Se almacenan en Redis con la clave `ciphers`
+- **Persistencia**: Los datos persisten permanentemente en Redis
 - **Rendimiento**: Muy rápido, perfecto para serverless
+- **Configuración**: Usa la variable de entorno `REDIS_URL`
 
 ### Filesystem (Desarrollo Local)
 

@@ -1,4 +1,4 @@
-import { kv } from '@vercel/kv';
+import { createClient } from 'redis';
 import { readFile, writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
 import { existsSync } from 'fs';
@@ -7,8 +7,23 @@ const DATA_DIR = join(process.cwd(), 'data');
 const PLAYERS_FILE = join(DATA_DIR, 'players.json');
 const CIPHERS_FILE = join(DATA_DIR, 'ciphers.json');
 
-// Usar KV si está configurado (producción), sino usar filesystem (desarrollo)
-const USE_KV = !!process.env.KV_REST_API_URL && !!process.env.KV_REST_API_TOKEN;
+// Usar Redis si está configurado (producción), sino usar filesystem (desarrollo)
+const USE_REDIS = !!process.env.REDIS_URL;
+
+// Cliente Redis singleton
+let redisClient: ReturnType<typeof createClient> | null = null;
+
+async function getRedisClient() {
+  if (!USE_REDIS) return null;
+  
+  if (!redisClient) {
+    redisClient = createClient({ url: process.env.REDIS_URL });
+    redisClient.on('error', (err) => console.error('[storage] Redis Client Error:', err));
+    await redisClient.connect();
+  }
+  
+  return redisClient;
+}
 
 export interface PlayersData {
   [playerId: string]: {
@@ -28,12 +43,14 @@ export interface CiphersData {
 
 // Players storage
 export async function readPlayers(): Promise<PlayersData> {
-  if (USE_KV) {
+  if (USE_REDIS) {
     try {
-      const data = await kv.get<PlayersData>('players');
-      return data || {};
+      const client = await getRedisClient();
+      if (!client) return {};
+      const data = await client.get('players');
+      return data ? JSON.parse(data) : {};
     } catch (error) {
-      console.error('[storage] Error reading players from KV:', error);
+      console.error('[storage] Error reading players from Redis:', error);
       return {};
     }
   } else {
@@ -50,11 +67,13 @@ export async function readPlayers(): Promise<PlayersData> {
 }
 
 export async function writePlayers(data: PlayersData): Promise<void> {
-  if (USE_KV) {
+  if (USE_REDIS) {
     try {
-      await kv.set('players', data);
+      const client = await getRedisClient();
+      if (!client) throw new Error('Redis client not available');
+      await client.set('players', JSON.stringify(data));
     } catch (error) {
-      console.error('[storage] Error writing players to KV:', error);
+      console.error('[storage] Error writing players to Redis:', error);
       throw error;
     }
   } else {
@@ -68,12 +87,14 @@ export async function writePlayers(data: PlayersData): Promise<void> {
 
 // Ciphers storage
 export async function readCiphers(): Promise<CiphersData> {
-  if (USE_KV) {
+  if (USE_REDIS) {
     try {
-      const data = await kv.get<CiphersData>('ciphers');
-      return data || {};
+      const client = await getRedisClient();
+      if (!client) return {};
+      const data = await client.get('ciphers');
+      return data ? JSON.parse(data) : {};
     } catch (error) {
-      console.error('[storage] Error reading ciphers from KV:', error);
+      console.error('[storage] Error reading ciphers from Redis:', error);
       return {};
     }
   } else {
@@ -90,11 +111,13 @@ export async function readCiphers(): Promise<CiphersData> {
 }
 
 export async function writeCiphers(data: CiphersData): Promise<void> {
-  if (USE_KV) {
+  if (USE_REDIS) {
     try {
-      await kv.set('ciphers', data);
+      const client = await getRedisClient();
+      if (!client) throw new Error('Redis client not available');
+      await client.set('ciphers', JSON.stringify(data));
     } catch (error) {
-      console.error('[storage] Error writing ciphers to KV:', error);
+      console.error('[storage] Error writing ciphers to Redis:', error);
       throw error;
     }
   } else {

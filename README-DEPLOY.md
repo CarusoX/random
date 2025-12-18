@@ -61,18 +61,24 @@ node scripts/edit-players.js delete <playerId>
 
 **Nota:** Este script solo funciona localmente. Para producción usa la Opción 1.
 
-## ⚠️ IMPORTANTE: Configurar Vercel KV
+## ⚠️ IMPORTANTE: Configurar Redis
 
-**Vercel tiene filesystem de solo lectura.** Debes configurar Vercel KV antes de deployar:
+**Vercel tiene filesystem de solo lectura.** Debes configurar Redis antes de deployar:
 
-1. En Vercel Dashboard → Tu Proyecto → Settings → Storage
+**Opción 1: Vercel KV**
+1. Vercel Dashboard → Tu Proyecto → Settings → Storage
 2. Click "Create Database" → Selecciona "KV" (Redis)
-3. Sigue las instrucciones (Vercel agregará automáticamente las variables de entorno)
-4. **Redeploy** el proyecto
+3. Redeploy
 
-Sin KV configurado, las APIs de escritura fallarán con error "read-only file system".
+**Opción 2: Redis externo (Redis Labs, Upstash, etc.)**
+1. Crea una base de datos Redis
+2. En Vercel → Settings → Environment Variables
+3. Agrega `REDIS_URL` con tu URL de Redis (ej: `redis://...`)
+4. Redeploy
 
-**En desarrollo local:** El código usa filesystem automáticamente si KV no está configurado.
+Sin Redis configurado, las APIs de escritura fallarán con error "read-only file system".
+
+**En desarrollo local:** El código usa filesystem automáticamente si `REDIS_URL` no está configurado.
 
 ## 📚 Documentación Completa
 
