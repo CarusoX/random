@@ -37,21 +37,22 @@ async function writePlayers(data: PlayersData): Promise<void> {
   await writeFile(PLAYERS_FILE, JSON.stringify(data, null, 2), 'utf-8');
 }
 
-async function getOrCreatePlayerId(request: NextRequest): Promise<string> {
+async function getOrCreatePlayerId(): Promise<{ playerId: string; needsCookie: boolean }> {
   const cookieStore = await cookies();
   let playerId = cookieStore.get('player-id')?.value;
+  const needsCookie = !playerId;
 
   if (!playerId) {
     // Generar un ID único
     playerId = `player-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
   }
 
-  return playerId;
+  return { playerId, needsCookie };
 }
 
 export async function GET(request: NextRequest) {
   try {
-    const playerId = await getOrCreatePlayerId(request);
+    const { playerId, needsCookie } = await getOrCreatePlayerId();
     const players = await readPlayers();
     const playerData = players[playerId];
 
@@ -62,8 +63,7 @@ export async function GET(request: NextRequest) {
     });
 
     // Establecer cookie si no existe
-    const cookieStore = await cookies();
-    if (!cookieStore.get('player-id')) {
+    if (needsCookie) {
       response.cookies.set('player-id', playerId, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
@@ -81,7 +81,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const playerId = await getOrCreatePlayerId(request);
+    const { playerId, needsCookie } = await getOrCreatePlayerId();
     const body = await request.json();
     const { name, currentLevel } = body;
 
@@ -101,8 +101,7 @@ export async function POST(request: NextRequest) {
     const response = NextResponse.json({ success: true, playerId });
 
     // Establecer cookie si no existe
-    const cookieStore = await cookies();
-    if (!cookieStore.get('player-id')) {
+    if (needsCookie) {
       response.cookies.set('player-id', playerId, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
@@ -120,7 +119,7 @@ export async function POST(request: NextRequest) {
 
 export async function PATCH(request: NextRequest) {
   try {
-    const playerId = await getOrCreatePlayerId(request);
+    const { playerId } = await getOrCreatePlayerId();
     const body = await request.json();
     const { currentLevel } = body;
 
