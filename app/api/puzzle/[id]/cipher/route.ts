@@ -1,10 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { readFile, writeFile, mkdir } from 'fs/promises';
-import { join } from 'path';
-import { existsSync } from 'fs';
-
-const DATA_DIR = join(process.cwd(), 'data');
-const CIPHERS_FILE = join(DATA_DIR, 'ciphers.json');
+import { readCiphers, writeCiphers } from '@/lib/storage';
 
 interface CipherData {
   mapping: { [key: string]: string };
@@ -14,26 +9,6 @@ interface CipherData {
 
 interface CiphersData {
   [puzzleId: string]: CipherData;
-}
-
-async function ensureDataDir() {
-  if (!existsSync(DATA_DIR)) {
-    await mkdir(DATA_DIR, { recursive: true });
-  }
-}
-
-async function readCiphers(): Promise<CiphersData> {
-  await ensureDataDir();
-  if (!existsSync(CIPHERS_FILE)) {
-    return {};
-  }
-  const content = await readFile(CIPHERS_FILE, 'utf-8');
-  return JSON.parse(content);
-}
-
-async function writeCiphers(data: CiphersData): Promise<void> {
-  await ensureDataDir();
-  await writeFile(CIPHERS_FILE, JSON.stringify(data, null, 2), 'utf-8');
 }
 
 function generateSubstitutionCipher(): { mapping: { [key: string]: string }, reverseMapping: { [key: string]: string } } {

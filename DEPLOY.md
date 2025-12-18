@@ -29,9 +29,26 @@ git commit -m "Initial commit"
    - **Output Directory**: `.next` (automático)
    - **Install Command**: `npm install` (automático)
 
-### 4. Variables de Entorno
+### 4. Configurar Vercel KV (Base de Datos)
 
-**IMPORTANTE:** Configura la clave admin para poder editar players.json:
+**CRÍTICO:** Vercel tiene un filesystem de solo lectura. Necesitas configurar Vercel KV para almacenar datos:
+
+1. **En el Dashboard de Vercel:**
+   - Ve a tu proyecto → Settings → Storage
+   - Click en "Create Database" → Selecciona "KV" (Redis)
+   - Sigue las instrucciones para crear el store
+   - Una vez creado, Vercel automáticamente agregará las variables de entorno:
+     - `KV_REST_API_URL`
+     - `KV_REST_API_TOKEN`
+     - `KV_REST_API_READ_ONLY_TOKEN`
+
+2. **Redeploy** el proyecto para que las variables tomen efecto
+
+**Nota:** En desarrollo local, el código usará filesystem automáticamente si KV no está configurado.
+
+### 5. Variables de Entorno Adicionales
+
+**Configura la clave admin para poder editar players.json:**
 
 1. Ve a Settings → Environment Variables
 2. Agrega una nueva variable:
@@ -41,27 +58,33 @@ git commit -m "Initial commit"
 3. Haz clic en "Save"
 4. **Redeploy** el proyecto para que la variable tome efecto
 
-### 5. Desplegar
+### 6. Desplegar
 
 1. Haz clic en "Deploy"
 2. Espera a que termine el build
 3. Tu aplicación estará disponible en `tu-proyecto.vercel.app`
 
-### 6. Configuración de Dominio Personalizado (Opcional)
+### 7. Configuración de Dominio Personalizado (Opcional)
 
 1. Ve a Settings → Domains
 2. Agrega tu dominio personalizado
 3. Sigue las instrucciones para configurar DNS
 
-## Archivos de Datos en Vercel
+## Almacenamiento de Datos
 
-### Importante sobre `/data`
+### Vercel KV (Producción)
 
-Los archivos en `/data` (players.json, ciphers.json) se crean automáticamente cuando las APIs se ejecutan por primera vez. Sin embargo:
+El proyecto usa **Vercel KV** (Redis) para almacenar datos en producción:
+- **Players**: Se almacenan en KV con la clave `players`
+- **Ciphers**: Se almacenan en KV con la clave `ciphers`
+- **Persistencia**: Los datos persisten permanentemente en KV
+- **Rendimiento**: Muy rápido, perfecto para serverless
 
-- **En Vercel**: Los archivos se crean en el filesystem del servidor
-- **Persistencia**: Los archivos persisten entre deployments pero se reinician si el servidor se reinicia
-- **Para producción**: Considera usar una base de datos (Vercel Postgres, MongoDB, etc.) para datos persistentes
+### Filesystem (Desarrollo Local)
+
+En desarrollo local (sin variables de KV configuradas), el código usa automáticamente el filesystem:
+- Los archivos se guardan en `/data/players.json` y `/data/ciphers.json`
+- Funciona perfectamente para desarrollo y testing
 
 ### Editar players.json en Vercel
 

@@ -61,11 +61,18 @@ node scripts/edit-players.js delete <playerId>
 
 **Nota:** Este script solo funciona localmente. Para producción usa la Opción 1.
 
-## ⚠️ Importante
+## ⚠️ IMPORTANTE: Configurar Vercel KV
 
-- `players.json` está en `.gitignore` - se crea automáticamente en Vercel
-- Los datos persisten entre deployments pero pueden resetearse si el servidor se reinicia
-- Para producción real, considera usar una base de datos (Vercel Postgres, MongoDB, etc.)
+**Vercel tiene filesystem de solo lectura.** Debes configurar Vercel KV antes de deployar:
+
+1. En Vercel Dashboard → Tu Proyecto → Settings → Storage
+2. Click "Create Database" → Selecciona "KV" (Redis)
+3. Sigue las instrucciones (Vercel agregará automáticamente las variables de entorno)
+4. **Redeploy** el proyecto
+
+Sin KV configurado, las APIs de escritura fallarán con error "read-only file system".
+
+**En desarrollo local:** El código usa filesystem automáticamente si KV no está configurado.
 
 ## 📚 Documentación Completa
 

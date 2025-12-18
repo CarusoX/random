@@ -1,35 +1,5 @@
 import { NextResponse } from 'next/server';
-import { readFile, mkdir } from 'fs/promises';
-import { join } from 'path';
-import { existsSync } from 'fs';
-
-const DATA_DIR = join(process.cwd(), 'data');
-const PLAYERS_FILE = join(DATA_DIR, 'players.json');
-
-interface PlayerData {
-  name: string;
-  currentLevel: number;
-  lastUpdated: string;
-}
-
-interface PlayersData {
-  [playerId: string]: PlayerData;
-}
-
-async function ensureDataDir() {
-  if (!existsSync(DATA_DIR)) {
-    await mkdir(DATA_DIR, { recursive: true });
-  }
-}
-
-async function readPlayers(): Promise<PlayersData> {
-  await ensureDataDir();
-  if (!existsSync(PLAYERS_FILE)) {
-    return {};
-  }
-  const content = await readFile(PLAYERS_FILE, 'utf-8');
-  return JSON.parse(content);
-}
+import { readPlayers } from '@/lib/storage';
 
 export async function GET() {
   try {

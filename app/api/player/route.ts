@@ -1,41 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import { readFile, writeFile, mkdir } from 'fs/promises';
-import { join } from 'path';
-import { existsSync } from 'fs';
-
-const DATA_DIR = join(process.cwd(), 'data');
-const PLAYERS_FILE = join(DATA_DIR, 'players.json');
-
-interface PlayerData {
-  name: string;
-  currentLevel: number;
-  lastUpdated: string;
-}
-
-interface PlayersData {
-  [playerId: string]: PlayerData;
-}
-
-async function ensureDataDir() {
-  if (!existsSync(DATA_DIR)) {
-    await mkdir(DATA_DIR, { recursive: true });
-  }
-}
-
-async function readPlayers(): Promise<PlayersData> {
-  await ensureDataDir();
-  if (!existsSync(PLAYERS_FILE)) {
-    return {};
-  }
-  const content = await readFile(PLAYERS_FILE, 'utf-8');
-  return JSON.parse(content);
-}
-
-async function writePlayers(data: PlayersData): Promise<void> {
-  await ensureDataDir();
-  await writeFile(PLAYERS_FILE, JSON.stringify(data, null, 2), 'utf-8');
-}
+import { readPlayers, writePlayers, type PlayersData } from '@/lib/storage';
 
 async function getOrCreatePlayerId(): Promise<{ playerId: string; needsCookie: boolean }> {
   const cookieStore = await cookies();
@@ -146,7 +111,7 @@ export async function POST(request: NextRequest) {
 
     try {
       await writePlayers(players);
-      console.log('[POST /api/player] Successfully wrote players file');
+      console.log('[POST /api/player] Successfully saved players data');
     } catch (error) {
       console.error('[POST /api/player] Error writing players:', error);
       return NextResponse.json({ 
