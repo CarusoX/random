@@ -3,9 +3,9 @@ import { caesarEncrypt } from '@/lib/caesar';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const id = params.id;
+  const { id } = await params;
   
   // Solo para el puzzle de César (id "caesar")
   if (id === 'caesar') {

@@ -37,8 +37,8 @@ async function writePlayers(data: PlayersData): Promise<void> {
   await writeFile(PLAYERS_FILE, JSON.stringify(data, null, 2), 'utf-8');
 }
 
-function getOrCreatePlayerId(request: NextRequest): string {
-  const cookieStore = cookies();
+async function getOrCreatePlayerId(request: NextRequest): Promise<string> {
+  const cookieStore = await cookies();
   let playerId = cookieStore.get('player-id')?.value;
 
   if (!playerId) {
@@ -51,7 +51,7 @@ function getOrCreatePlayerId(request: NextRequest): string {
 
 export async function GET(request: NextRequest) {
   try {
-    const playerId = getOrCreatePlayerId(request);
+    const playerId = await getOrCreatePlayerId(request);
     const players = await readPlayers();
     const playerData = players[playerId];
 
@@ -62,7 +62,8 @@ export async function GET(request: NextRequest) {
     });
 
     // Establecer cookie si no existe
-    if (!cookies().get('player-id')) {
+    const cookieStore = await cookies();
+    if (!cookieStore.get('player-id')) {
       response.cookies.set('player-id', playerId, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
@@ -80,7 +81,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const playerId = getOrCreatePlayerId(request);
+    const playerId = await getOrCreatePlayerId(request);
     const body = await request.json();
     const { name, currentLevel } = body;
 
@@ -100,7 +101,8 @@ export async function POST(request: NextRequest) {
     const response = NextResponse.json({ success: true, playerId });
 
     // Establecer cookie si no existe
-    if (!cookies().get('player-id')) {
+    const cookieStore = await cookies();
+    if (!cookieStore.get('player-id')) {
       response.cookies.set('player-id', playerId, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
@@ -118,7 +120,7 @@ export async function POST(request: NextRequest) {
 
 export async function PATCH(request: NextRequest) {
   try {
-    const playerId = getOrCreatePlayerId(request);
+    const playerId = await getOrCreatePlayerId(request);
     const body = await request.json();
     const { currentLevel } = body;
 

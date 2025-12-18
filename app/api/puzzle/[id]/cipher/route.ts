@@ -61,10 +61,10 @@ function encryptText(text: string, mapping: { [key: string]: string }): string {
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const puzzleId = params.id;
+    const { id: puzzleId } = await params;
     const ciphers = await readCiphers();
     
     // If cipher already exists for this puzzle, return it
